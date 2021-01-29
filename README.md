@@ -14,7 +14,7 @@ The two example packages are copied from the bazel android tutorial with the fol
 * The `example2` package is modified to include a dependency on Guava.
 
 When the maven import is set to use the `android` flavor, everything works fine, but when the
- `jre` flavor is used, the following error occurs:
+ `jre` flavor is used, `bazel build //src/main:app2` gives the following error:
  
 > java.util.concurrent.ExecutionException: com.android.dx.cf.code.SimException: ERROR in com.google.common.collect.CollectCollectors.toImmutableBiMap:(Ljava/util/function/Function;Ljava/util/function/Function;)Ljava/util/stream/Collector;: invoking a static interface method java.util
   .stream.Collector.of:(Ljava/util/function/Supplier;Ljava/util/function/BiConsumer;Ljava/util/function/BinaryOperator;Ljava/util/function/Function;[Ljava/util/stream/Collector$Characteristics;)Ljava/util/stream/Collector; strictly requires --min-sdk-version >= 24 (blocked at current
