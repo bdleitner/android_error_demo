@@ -12,5 +12,9 @@ android_binary(
 android_binary(
     name = "app2",
     manifest = "AndroidManifest.xml",
+    javacopts = [
+        "-source=8",
+        "-target=8",
+    ],
     deps = ["//src/main/java/com/example2/bazel:greeter_activity"],
 )
