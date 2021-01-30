@@ -18,7 +18,11 @@ load("@rules_jvm_external//:defs.bzl", "maven_install")
 
 maven_install(
     artifacts = [
+        "com.google.code.findbugs:jsr305:3.0.2",
+        "com.google.errorprone:error_prone_annotations:2.4.0",
         "com.google.guava:guava:30.0-jre",
+        "com.google.j2objc:j2objc-annotations:1.3",
+        "org.checkerframework:checker-qual:3.9.1",
     ],
     repositories = [
 #        "https://maven.google.com",
