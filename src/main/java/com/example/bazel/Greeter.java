@@ -1,4 +1,4 @@
-package com.example1.bazel;
+package com.example.bazel;
 
 /**
  * A tiny Greeter library for the Bazel Android "Hello, World" app.

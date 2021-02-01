@@ -1,13 +1,22 @@
 # Android Error Demo
 
-A small project to demonstrate the issue when referencing certian java8 methods in an Android
+A small project to demonstrate the issue when referencing certain java8 methods in an Android
 app.
 
-`bazel build //src/main:app1` gives the following error:
+The three `Uses*` classes attempt to use different Java 8 features:
+
+* `UsesCollectorOf` uses the `Collector.of` method specifically.  This method is referenced in
+ the [Java 8 support table](https://developer.android.com/studio/write/java8-support-table) as
+  being available via desugaring.
+* `UsesStaticInterfaceMethod` defines and exercises static methods on an interface.
+* `UsesStreamApi` uses the `Stream` API but avoids the `Collector.of` method specifically.
+
+If `UsesCollectorOf.java` is excluded from the `BUILD`'s `srcs` attribute, everything builds fine.
+If, however, it is included, then `bazel build //src/main:app` gives the following error:
 
 ```
-ERROR: C:/projects/bazel/android_error_demo/src/main/java/com/example1/bazel/BUILD:5:1: Dexing src/main/java/com/example1/bazel/_dx/greeter_activity/libgreeter_activity.jar_desugared.jar with applicable dexopts [] failed (Exit 1)
-java.util.concurrent.ExecutionException: com.android.dx.cf.code.SimException: ERROR in com.example1.bazel.Dep.message:()Ljava/lang/String;: invoking a static interface method java.util.stream.Collector.of:(Ljava/util/function/Supplier;Ljava/util/function/BiConsumer;Ljava/util/funct
+ERROR: C:/projects/bazel/android_error_demo/src/main/java/com/example/bazel/BUILD:5:1: Dexing src/main/java/com/example/bazel/_dx/greeter_activity/libgreeter_activity.jar_desugared.jar with applicable dexopts [] failed (Exit 1)
+java.util.concurrent.ExecutionException: com.android.dx.cf.code.SimException: ERROR in com.example.bazel.Dep.message:()Ljava/lang/String;: invoking a static interface method java.util.stream.Collector.of:(Ljava/util/function/Supplier;Ljava/util/function/BiConsumer;Ljava/util/funct
 ion/BinaryOperator;Ljava/util/function/Function;[Ljava/util/stream/Collector$Characteristics;)Ljava/util/stream/Collector; strictly requires --min-sdk-version >= 24 (blocked at current API level 13)
         at java.base/java.util.concurrent.FutureTask.report(FutureTask.java:122)
         at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:191)
@@ -15,7 +24,7 @@ ion/BinaryOperator;Ljava/util/function/Function;[Ljava/util/stream/Collector$Cha
         at com.google.devtools.build.android.dexer.DexBuilder.processRequest(DexBuilder.java:220)
         at com.google.devtools.build.android.dexer.DexBuilder.runPersistentWorker(DexBuilder.java:173)
         at com.google.devtools.build.android.dexer.DexBuilder.main(DexBuilder.java:121)
-Caused by: com.android.dx.cf.code.SimException: ERROR in com.example1.bazel.Dep.message:()Ljava/lang/String;: invoking a static interface method java.util.stream.Collector.of:(Ljava/util/function/Supplier;Ljava/util/function/BiConsumer;Ljava/util/function/BinaryOperator;Ljava/util/
+Caused by: com.android.dx.cf.code.SimException: ERROR in com.example.bazel.Dep.message:()Ljava/lang/String;: invoking a static interface method java.util.stream.Collector.of:(Ljava/util/function/Supplier;Ljava/util/function/BiConsumer;Ljava/util/function/BinaryOperator;Ljava/util/
 function/Function;[Ljava/util/stream/Collector$Characteristics;)Ljava/util/stream/Collector; strictly requires --min-sdk-version >= 24 (blocked at current API level 13)
         at com.android.dx.cf.code.Simulator.fail(Simulator.java:947)
         at com.android.dx.cf.code.Simulator.checkInvokeInterfaceSupported(Simulator.java:917)
@@ -39,8 +48,6 @@ function/Function;[Ljava/util/stream/Collector$Characteristics;)Ljava/util/strea
         at java.base/java.lang.Thread.run(Thread.java:834)
 ```
 
-Despite the `AndroidManifest.xml` file specifying `minSdkVersion=28` and `targetSdkVersion=28`.
-It may be that `Collectors.of` is simply not available at all in Android, even with the higher
- sdk versions, but if this is the case, the error message is misleading.
- 
-Nothing is specifying API level 13 and no other dependencies are een being referenced. 
+This occurs despite the `AndroidManifest.xml` file specifying `minSdkVersion=28` and
+ `targetSdkVersion=28`. Nothing is specifying API level 13 and no other dependencies are een
+  being referenced. 

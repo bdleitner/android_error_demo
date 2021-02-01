@@ -1,4 +1,4 @@
-package com.example1.bazel;
+package com.example.bazel;
 
 import android.app.Activity;
 import android.os.Bundle;

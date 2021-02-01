@@ -7,7 +7,13 @@ android_library(
     srcs = [
         "Greeter.java",
         "MainActivity.java",
-        "Dep.java", # Comment this out and we can build just fine.
+        "UsesCollectorOf.java", # Comment this out and we can build just fine.
+        "UsesStaticInterfaceMethod.java",
+        "UsesStreamApi.java",
+    ],
+    javacopts = [
+        "-source 8",
+        "-target 8",
     ],
     manifest = "AndroidManifest.xml",
     resource_files = glob(["res/**"]),

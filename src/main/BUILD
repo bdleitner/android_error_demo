@@ -1,5 +1,5 @@
 android_binary(
-    name = "app1",
+    name = "app",
     manifest = "AndroidManifest.xml",
-    deps = ["//src/main/java/com/example1/bazel:greeter_activity"],
+    deps = ["//src/main/java/com/example/bazel:greeter_activity"],
 )
