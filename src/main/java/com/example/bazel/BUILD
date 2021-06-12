@@ -13,6 +13,9 @@ android_library(
         "UsesStaticInterfaceMethod.java",
         "UsesStreamApi.java",
     ],
+    deps = [
+        "//src/main/java/com/example/bazel/ordinary",
+    ],
     javacopts = [
         "-source 8",
         "-target 8",
