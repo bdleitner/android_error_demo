@@ -7,6 +7,7 @@ android_library(
     srcs = [
         "Greeter.java",
         "MainActivity.java",
+        "RedefinesComparatorComparing.java",
 #        "UsesComparatorComparing.java", # If this is uncommented, compilation fails.
 #        "UsesCollectorOf.java", # If this is uncommented, compilation fails.
         "UsesStaticInterfaceMethod.java",
