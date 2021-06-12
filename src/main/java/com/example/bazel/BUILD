@@ -7,7 +7,8 @@ android_library(
     srcs = [
         "Greeter.java",
         "MainActivity.java",
-        "UsesCollectorOf.java", # Comment this out and we can build just fine.
+#        "UsesComparatorComparing.java", # If this is uncommented, compilation fails.
+#        "UsesCollectorOf.java", # If this is uncommented, compilation fails.
         "UsesStaticInterfaceMethod.java",
         "UsesStreamApi.java",
     ],
